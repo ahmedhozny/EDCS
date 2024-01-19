@@ -1,9 +1,10 @@
 from keras.models import Sequential
 from keras.layers import Dropout, Activation, Dense, Flatten
 import numpy as np
-from keras.optimizers import Adam, legacy
+from keras.optimizers import legacy
 
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.neighbors import KNeighborsClassifier
 
 
 def neural_binary_model(input_dim):
@@ -31,6 +32,10 @@ def neural_binary_model(input_dim):
 	model.compile(loss='binary_crossentropy', optimizer=sgd)  # Assigned the optimizer instance
 
 	return model
+
+
+def k_nearest_neighbors():
+	return KNeighborsClassifier(n_neighbors=21)
 
 
 """ WORK IN PROGRESS """

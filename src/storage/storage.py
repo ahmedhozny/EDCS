@@ -39,14 +39,14 @@ def load_label_encoder(path=""):
 	return encoder
 
 
-def save_model_data(model, path=""):
+def save_model_data(model, model_name, path=""):
 	if not os.path.exists(path):
 		os.makedirs(path)
 	# Save the entire model
-	model.save(os.path.join(path, "model.h5"))
+	model.save(os.path.join(path, f"{model_name}.h5"))
 
 
-def load_model_data(path=""):
+def load_model_data(model_name, path=""):
 	# Load the entire model
-	model = load_model(os.path.join(path, "model.h5"))
+	model = load_model(os.path.join(path, f"{model_name}.h5"))
 	return model
