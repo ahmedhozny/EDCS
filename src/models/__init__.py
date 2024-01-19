@@ -1,1 +1,1 @@
-from src.models.models import neural_binary_model
+from src.models.models import neural_binary_model, linear_discriminant_analysis

@@ -1,31 +1,52 @@
 from keras.models import Sequential
-from keras.layers import Dropout, Activation, Dense
-import tensorflow as tf
+from keras.layers import Dropout, Activation, Dense, Flatten
 import numpy as np
+from keras.optimizers import Adam, legacy
+
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 
 def neural_binary_model(input_dim):
+	# Create a Sequential model
 	model = Sequential()
-	model.add(Dense(500, input_dim=input_dim, kernel_initializer='glorot_normal'))
+
+	# Add a Dense layer with 400 units, input dimension specified, and ReLU activation
+	model.add(Dense(units=400, input_dim=input_dim, kernel_initializer='glorot_normal'))
 	model.add(Activation('relu'))
-	model.add(Dense(400, input_dim=600, kernel_initializer='glorot_normal'))
+	model.add(Dropout(0.5))  # Add dropout layer
+
+	# Add another Dense layer with 300 units and ReLU activation
+	model.add(Dense(units=300, kernel_initializer='glorot_normal'))
 	model.add(Activation('relu'))
-	model.add(Dropout(0.5))
-	model.add(Dense(300, input_dim=400, kernel_initializer='glorot_normal'))
-	model.add(Activation('relu'))
-	model.add(Dropout(0.5))
-	model.add(Dense(2, input_dim=300, kernel_initializer='glorot_normal'))
+	model.add(Dropout(0.5))  # Add dropout layer
+
+	# Add the output layer with 2 units and sigmoid activation for binary classification
+	model.add(Dense(units=2, kernel_initializer='glorot_normal'))
 	model.add(Activation('sigmoid'))
-	lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
-		initial_learning_rate=0.01,
-		decay_steps=10000,
-		decay_rate=0.9)
-	optimizer = tf.keras.optimizers.Adam(learning_rate=lr_schedule)
-	model.compile(loss='binary_crossentropy', optimizer=optimizer)
+
+	# Use the SGD optimizer with specified parameters
+	sgd = legacy.SGD(learning_rate=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+
+	# Compile the model with binary cross-entropy loss and the SGD optimizer
+	model.compile(loss='binary_crossentropy', optimizer=sgd)  # Assigned the optimizer instance
+
 	return model
 
 
-# WIP
+""" WORK IN PROGRESS """
+
+
+def linear_discriminant_analysis():
+	return LinearDiscriminantAnalysis()
+
+
+def neural_binary_model2(input_shape):
+	model = Sequential()
+	model.add(Flatten(input_shape=input_shape))  # Flatten the input matrix
+	model.add(Dense(128, activation='relu'))
+	model.add(Dense(1, activation='sigmoid'))
+
+
 def custom_fit(model, X_train, y_train, epochs=10, batch_size=32, validation_split=0.2):
 	num_samples = len(X_train)
 	print(num_samples)
