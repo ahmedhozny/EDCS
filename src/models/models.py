@@ -38,11 +38,11 @@ def k_nearest_neighbors():
 	return KNeighborsClassifier(n_neighbors=21)
 
 
-""" WORK IN PROGRESS """
-
-
 def linear_discriminant_analysis():
 	return LinearDiscriminantAnalysis()
+
+
+""" WORK IN PROGRESS """
 
 
 def neural_binary_model2(input_shape):
